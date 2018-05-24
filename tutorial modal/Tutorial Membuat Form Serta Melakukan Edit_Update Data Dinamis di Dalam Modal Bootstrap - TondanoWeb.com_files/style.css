@@ -1,0 +1,484 @@
+/*
+Theme Name: twtheme-v.0.0.2
+Theme URI: http://tondanoweb.com
+Description: Theme For TondanoWeb
+Author: Ray Xaxnerx
+Author URI: http://tondanoweb.com/
+Version: 0.0.2
+*/
+
+/* ============================ */
+/* GENERAL */
+/* ============================ */
+
+
+	html *
+	{
+             text-rendering: optimizeLegibility;
+	     font-family: Arial, Helvetica, sans-serif;
+	}
+
+
+	body {
+	     font-family: Arial, Helvetica, sans-serif;
+	}
+
+	.img-responsive { 
+	    width:100%;
+	}
+
+	p {
+	     font-family: Arial, Helvetica, sans-serif !important;
+		line-height: 24px;
+	}
+
+	img.img-header {
+		max-width: 100%;
+		height: auto;
+		margin-top: -100px;
+	}
+
+
+	section {
+		padding-bottom: 60px;
+	}
+
+	section:last-child {
+		padding-bottom: 0px;
+	}
+
+	header {
+		margin-top: 105px;
+		margin-bottom: 20px;
+		text-align: left;
+	}
+
+
+
+
+/* ============================ */
+/* NAVBAR */
+/* ============================ */
+
+	.navbar-twtheme {
+	  background-color: #F65314;
+	  font-size: 15px;
+	}
+	.navbar-twtheme .navbar-brand {
+	  color: #ffffff;
+	}
+	.navbar-twtheme .navbar-brand:hover,
+	.navbar-twtheme .navbar-brand:focus {
+	  color: #000000;
+	  background-color: transparent;
+	}
+	.navbar-twtheme .navbar-text {
+	  color: #777;
+	}
+	.navbar-twtheme .navbar-nav > li > a {
+	  color: #777;
+	}
+	.navbar-twtheme .navbar-nav > li > a:hover,
+	.navbar-twtheme .navbar-nav > li > a:focus {
+	  color: #333;
+	  background-color: transparent;
+	}
+	.navbar-twtheme .navbar-nav > .active > a,
+	.navbar-twtheme .navbar-nav > .active > a:hover,
+	.navbar-twtheme .navbar-nav > .active > a:focus {
+	  color: #555;
+	  background-color: #F65314;
+	}
+	.navbar-twtheme .navbar-nav > .disabled > a,
+	.navbar-twtheme .navbar-nav > .disabled > a:hover,
+	.navbar-twtheme .navbar-nav > .disabled > a:focus {
+	  color: #ccc;
+	  background-color: transparent;
+	}
+	.navbar-twtheme .navbar-toggle {
+	  border-color: #ddd;
+	}
+	.navbar-twtheme .navbar-toggle:hover,
+	.navbar-twtheme .navbar-toggle:focus {
+	  background-color: #000000;
+	}
+	.navbar-twtheme .navbar-toggle .icon-bar {
+	  background-color: white;
+	}
+	.navbar-twtheme .navbar-collapse,
+	.navbar-twtheme .navbar-form {
+	  border-color: #e7e7e7;
+	}
+
+	.navbar-twtheme .navbar-nav > .open > a,
+	.navbar-twtheme .navbar-nav > .open > a:hover,
+	.navbar-twtheme .navbar-nav > .open > a:focus {
+	  color: #ffffff;
+	  background-color: #000000;
+	}
+
+	.navbar-twtheme .navbar-nav .open .dropdown-menu {
+	    background-color: #F65314;
+	    font-size: 15px;
+	}
+
+	.navbar-twtheme .navbar-nav .open .dropdown-menu > li > a {
+	    color: #ffffff;
+            font-weight: bold;
+	}
+
+	.navbar-twtheme .navbar-nav .open .dropdown-menu > li > a:hover {
+	    background-color: #000000;
+	}
+
+	.navbar-twtheme .navbar-link {
+	  color: #777;
+	}
+	.navbar-twtheme .navbar-link:hover {
+	  color: #333;
+	}
+	.navbar-twtheme .btn-link {
+	  color: #777;
+	}
+	.navbar-twtheme .btn-link:hover,
+	.navbar-twtheme .btn-link:focus {
+	  color: #333;
+	}
+	.navbar-twtheme .btn-link[disabled]:hover,
+	fieldset[disabled] .navbar-twtheme .btn-link:hover,
+	.navbar-twtheme .btn-link[disabled]:focus,
+	fieldset[disabled] .navbar-twtheme .btn-link:focus {
+	  color: #ccc;
+	}
+
+
+/* ============================ */
+/* PANEL CONTENT INDEX */
+/* ============================ */
+
+
+
+/* ============================ */
+/* PAGINATION CONTENT INDEX*/
+/* ============================ */
+
+	.pagination>li:first-child>a {
+	    border-top-right-radius: 4px;
+	    border-bottom-right-radius: 4px;
+	}
+
+	.pagination>li:last-child>a {
+	    border-top-right-radius: 4px;
+	    border-bottom-right-radius: 4px;
+	}
+
+
+/* ============================ */
+/* MEDIA RESPONSIVE*/
+/* ============================ */
+
+	@media (max-width: 767px) {
+	  .navbar-twtheme .navbar-nav .open .dropdown-menu > li > a {
+	    color: #ffffff;
+	  }
+	  .navbar-twtheme .navbar-nav .open .dropdown-menu > li > a:hover,
+	  .navbar-twtheme .navbar-nav .open .dropdown-menu > li > a:focus {
+		background-color: #000000;
+	  }
+
+	  .navbar-twtheme .navbar-nav .open .dropdown-menu > .active > a,
+	  .navbar-twtheme .navbar-nav .open .dropdown-menu > .active > a:hover,
+	  .navbar-twtheme .navbar-nav .open .dropdown-menu > .active > a:focus {
+		color: #ffffff;
+		background-color: #000000;
+	  }
+
+	  .navbar-twtheme .navbar-nav .open .dropdown-menu > .disabled > a,
+	  .navbar-twtheme .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+	  .navbar-twtheme .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+		color: #ffffff;
+		background-color: #000000
+	  }
+	}
+
+/* ============================ */
+/* MEDIA RESPONSIVE*/
+/* ============================ */
+
+	@media (min-width: 1200px)
+	.container {
+		width: 1260px;
+	}
+	.row-gutter {
+		margin-left: -20px;
+		margin-right: -20px;
+	}
+	.col-gutter {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	.sidebar-gutter {
+		padding-left: 50px;
+	}
+	.navbar .navbar-nav > li > a {
+		color:#fff;
+	}
+
+
+/* ============================ */
+/* POSTINGAN INDEX*/
+/* ============================ */
+
+	.thumbnail-img {
+		padding-bottom: 20px;
+	}
+	
+	.postingan-artikel:last-child {
+		border-bottom: none;
+	}
+
+	.postingan-artikel .postingan-artikel-body h3 a {
+		color: #000000;
+	}
+
+	.postingan-artikel .postingan-artikel-body h3 a:hover {
+		color: #808080;
+	}
+
+	.postingan-artikel .postingan-artikel-body p {
+		font-size: 1.3em !important;
+		line-height: 30px;
+		color: #000;
+	}
+
+	.postingan-artikel .postingan-artikel-body a {
+		color: #DD4124;
+	}
+
+	.postingan-artikel .postingan-artikel-body a:hover  {
+		font-weight: bold;
+		text-decoration: none;
+	}
+
+	.postingan-artikel .postingan-artikel-text {
+		text-align: left;
+	}
+	.postingan-artikel .postingan-artikel-text p {
+		font-size: ;
+		font-weight: 400;
+		line-height: 28px;
+		color: #000;
+		letter-spacing: 0.1px;
+		margin-bottom: 30px;
+	}
+
+	.postingan-artikel .postingan-artikel-body h2 a {
+		color: #000;
+	    margin: 0;
+	    padding: 15px 0px 20px;
+	    font-size: ;
+	    line-height: 49px;
+	}
+
+	.postingan-artikel .postingan-artikel-body h2 a:hover {
+		color: #4285F4;
+	}
+
+
+
+/* ============================ */
+/* SINGLE CONTENT*/
+/* ============================ */
+
+	.judul-single-content {
+		border-bottom: 1px solid;
+		text-align: left;
+	}
+
+	.single-content {
+		margin-bottom: 30px;
+	}
+
+	.info-single-content {
+		margin-bottom: 10px;
+	}
+
+
+	.badge-info-category {
+		background-color:  #F7786B;
+		padding: 5px 5px 5px 5px;
+		border-radius: 6px;
+		font-size: ;
+		font-weight: bold;
+	}
+
+	.badge-info-category a {
+
+	}
+
+	.badge-info-category a:hover {
+
+	}
+
+
+	.badge-info-tags {
+		background-color:  #034F84;
+
+		padding: 5px 5px 5px 5px;
+		border-radius: 6px;
+		font-size: ;
+		font-weight: bold;
+	}
+
+	.badge-info-tags a {
+
+	}
+
+	.badge-info-tags a:hover {
+
+	}
+
+
+/* ============================ */
+/* SIDEBAR*/
+/* ============================ */
+
+	.widget {
+		padding-bottom: 5px;
+	}
+
+	.widget-title {
+		background-color: #000;
+		color: #fff;
+		text-align: center;
+		text-transform: uppercase;
+		font-weight: 800;
+		letter-spacing: 0.8px;
+		font-size: 1.3em;
+		padding: 15px 0;
+	}
+
+	.sidebar ul > li > a {
+    	text-transform: uppercase !important;
+    	color: #000000;
+    	text-decoration: none;
+    	font-weight: bold;
+	}
+
+	.sidebar ul > li > a:hover {
+		color: #66757F;
+	}
+
+	.sidebar li {
+	    font-size: ;
+	    margin-bottom: 10px;
+	    list-style-type: circle;
+	    font-size: ;
+	    text-transform: capitalize !important;
+	}
+
+	.sidebar li.cat-item a {
+		/*
+
+		background-color:  #F7786B;
+		padding: 5px 5px 5px 5px;
+		border-radius: 6px;
+
+		*/
+	}
+
+	.sidebar-recent-post-img li {
+		display: inline-block;
+		border-bottom: 1px solid;
+		border-color: #66757F;
+	}
+
+	.sidebar-recent-post-img ul {
+		margin-left: -50px;
+	}
+
+
+	.sidebar-recent-post-img ul > li > a {
+		text-transform: uppercase !important;
+	    color: #000000;
+	    text-decoration: none;
+	    font-weight: bold;
+	}
+
+	.sidebar-recent-post-img ul > li > a:hover {
+		color: #66757F;
+	}
+
+	.kategori {
+		font-weight: bold;
+		color: red;
+	}
+
+/* ============================ */
+/* FOOTER*/
+/* ============================ */
+
+	footer {
+		margin-top: 30px;
+		text-align: center;
+		border-top: 1px solid #CECECE;
+	}
+
+	.list-inline {
+		padding-top: 20px;
+		padding-bottom: 10px;
+	}
+
+	.list-inline > li > a {
+		color: #000000;
+		font-size: 1.1em;
+		font-weight: bold;
+	}
+
+	.social > li > a {
+		margin-right: 20px;
+	}
+
+	.copyright {
+		padding-top: -30;
+		color: #000000;
+		padding-bottom: 20px;
+		font-weight: bold;
+	}
+
+/* ============================ */
+/* PAGING INDEX*/
+/* ============================ */
+
+	.paging {
+	  display: inline-block;
+	  padding-left: 0;
+	  margin: 20px 0;
+	  padding: 10px 16px;
+	  font-size: 18px;
+	  line-height: 1.3333333;
+	  font-weight: bold;
+	}
+
+	.paging > li {
+	  display: inline;
+	}
+
+	.paging > li > a,
+	.paging > li > span {
+	  position: relative;
+	  float: left;
+	  padding: 6px 12px;
+	  margin-left: -1px;
+	  color: #000000;
+	  text-decoration: none;
+	  background-color: transparent;
+	}
+
+	.paging > li > a:hover {
+		background-color: #9896A4;
+		color: #ffffff;
+	}
+
+
+
