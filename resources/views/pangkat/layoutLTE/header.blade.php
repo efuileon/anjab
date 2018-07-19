@@ -27,13 +27,21 @@
       <!-- User Account: style can be found in dropdown.less -->
       <li class="dropdown user user-menu">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          <img src="{{asset('LTE/dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image"/>
+          @if(empty(Auth::user()->img))
+          <img src="{{asset('storage/files/foto/def.jpg')}}" class="user-image" alt="User Image"/>
+          @else
+          <img src="{{asset(Auth::user()->lokasi)}}" class="user-image" alt="User Image"/>
+          @endif
           <span class="hidden-xs">{{ Auth::user()->name }}</span>
         </a>
         <ul class="dropdown-menu">
           <!-- User image -->
           <li class="user-header">
-            <img src="{{asset('LTE/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image" />
+            @if(empty(Auth::user()->img))
+            <img src="{{asset('storage/files/foto/def.jpg')}}" class="img-circle" alt="User Image" />
+            @else
+            <img src="{{asset(Auth::user()->lokasi)}}" class="img-circle" alt="User Image" />
+            @endif
             <p>
               {{ Auth::user()->name }}
               @php
@@ -46,7 +54,7 @@
           <!-- Menu Footer-->
           <li class="user-footer">
             <div class="pull-left">
-              <a href="#" class="btn btn-default btn-flat">Profil</a>
+              <a href="{{url('pangkat/profil')}}" class="btn btn-default btn-flat">Profil</a>
             </div>
             <div class="pull-right">
               <a href="{{ route('logout') }}" class="btn btn-default btn-flat"

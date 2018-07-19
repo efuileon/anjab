@@ -18,8 +18,8 @@ use App\z_pangkat_b_transkrip;
 use App\z_pangkat_b_skp;
 use App\z_pangkat_b_lain;
 use App\z_pangkat_b_pak;
-use App\z_pangkat_b_jabfung;
-use App\z_pangkat_b_jabstruk;
+// use App\z_pangkat_b_jabfung;
+// use App\z_pangkat_b_jabstruk;
 use App\z_pangkat_status;
 use App\z_pangkat_history;
 use App\z_pangkat_jeniskp;
@@ -48,26 +48,6 @@ function history($id_usul,$nip,$nama,$per_bln,$per_thn,$jenis_kp,$opd,$status,$c
   $history->save();
 }
 
-function red_jeniskp($id)
-{
-  switch ($id) {
-    case '1':
-      return "reguler";
-      break;
-      case '2':
-        return "jft";
-        break;
-        case '3':
-          return "struk";
-          break;
-          case '4':
-            return "pi_jfu";
-            break;
-            case '5':
-              return "pi_jft";
-              break;
-  }
-}
 
 class pangkatController extends Controller
 {
@@ -348,6 +328,7 @@ class pangkatController extends Controller
 
       $bl = date("m");
       $th = date("Y");
+      $data['jen_kp'] = "1";
       $per_bl = session()->get('per');
       $per_th = session()->get('thn');
       if(session()->get('per')=="" || session()->get('thn')=="")
@@ -367,7 +348,11 @@ class pangkatController extends Controller
               $per_th = $th+1;
             }
     }
-      $data['ukp'] = z_pangkat::where('opd','=',Auth::user()->OPD)->where('per_bln','=',$per_bl)->where('per_thn','=',$per_th)->where('jenis_kp','=',$request->jenis_kp)->get();
+    $verif = opd::find(Auth::user()->OPD);
+//      return $verif;
+    $data['ukp'] = z_pangkat::leftjoin('z_pangkat_jeniskps','jenis_kp','=','id_jenis_kp')->leftjoin('opds','opd','=','id_opd')->leftjoin('z_pangkat_statuss','verifikasi','=','kd_status')->whereRaw('(opd = '.Auth::user()->OPD.' or parent = '.Auth::user()->OPD.')')->where('per_bln','=',$per_bl)->where('per_thn','=',$per_th)->where('jenis_kp','=',$data['jen_kp'])->where('verifikasi','>=',$verif->tingkat)->get();
+
+//      $data['ukp'] = z_pangkat::where('opd','=',Auth::user()->OPD)->where('per_bln','=',$per_bl)->where('per_thn','=',$per_th)->where('jenis_kp','=',$request->jenis_kp)->get();
 
       $nip = $request->nip;
       $data['sidebar'] = "usul_pangkat";
@@ -385,8 +370,15 @@ class pangkatController extends Controller
 
     public function addpnsreg(Request $request)
     {
+      $end_date = strtotime("2018-07-15 23:59:59");
+      $todays_date = strtotime(gmdate("Y-m-d H:i:s", time()+60*60*7));
       $cek = z_pangkat::leftjoin('z_pangkat_jeniskps','jenis_kp','=','id_jenis_kp')->where('nip_baru','=',$request->nip_baru)->where('per_bln','=',session()->get('per'))->where('per_thn','=',session()->get('thn'))->get();
       if(count($cek) ==0){
+        if($request->gol4 ==1 && $todays_date >= $end_date)
+        {
+          Alert::error('Masa Input Golongan 4 Keatas telah berakhir')->persistent("Tutup");
+          return redirect('pangkat/'.red_jeniskp($request->jenis_kp));
+        } else{
       $reg = new z_pangkat();
       $reg->nip_baru = $request->nip_baru;
       $reg->glr_dpn = $request->glr_dpn;
@@ -422,6 +414,7 @@ class pangkatController extends Controller
 
       Alert::success('PNS telah ditambah!');
       return redirect('pangkat/'.red_jeniskp($request->jenis_kp));
+      }
     } else {
       $pesan_opd = opd::find($cek[0]->opd);
       Alert::error('PNS sudah diusulkan oleh '.$pesan_opd->nm_opd.' pada Jenis '.$cek[0]->nm_jenis_kp)->persistent("Tutup");
@@ -430,14 +423,33 @@ class pangkatController extends Controller
     }
 
 
-    public function naikreg(Request $request)
+     public function naikreg(Request $request)
     {
+        $end_date = strtotime("2018-07-15 23:59:59");
+        $todays_date = strtotime(gmdate("Y-m-d H:i:s", time()+60*60*7));
         $date = gmdate("Y-m-d H:i:s", time()+60*60*7);
         $data = z_pangkat::find($request->id_pns);
+        if($data->gol4 ==1 && $todays_date >= $end_date)
+        {
+          Alert::error('Masa Kirim Usulan Golongan 4 Keatas telah berakhir')->persistent("Tutup");
+          return redirect('pangkat/'.red_jeniskp($data->jenis_kp));
+        } else{
         $data->verifikasi = $request->verifikasi+1;
         $data->save();
         history($data->id,$data->nip_baru,$data->nama,$data->per_bln,$data->per_thn,$data->jenis_kp,$data->opd,$request->verifikasi+1,"Naik 1 Tingkat diatasnya");
+	}
         return redirect('pangkat/'.red_jeniskp($data->jenis_kp));
+    }
+
+    public function kirim_revisi($id)
+    {
+        $date = gmdate("Y-m-d H:i:s", time()+60*60*7);
+        $data = z_pangkat::find($id);
+        $data->verifikasi = "4";
+        $data->save();
+        history($data->id,$data->nip_baru,$data->nama,$data->per_bln,$data->per_thn,$data->jenis_kp,$data->opd,"4","Kirim kembali ke BKPSDM");
+        Alert::warning('Dikirim kembali ke BKPSDM');
+        return redirect('pangkat/daftar_pengembalian');
     }
 
     public function daftar_usulan()
@@ -458,6 +470,24 @@ class pangkatController extends Controller
       return view('pangkat.isi.daftar_usulan',$data);
     }
 
+    public function daftar_pengembalian()
+    {
+      if(Auth::user()->level <> 2 )
+      {
+        return redirect('pangkat/admin');
+      }
+
+      $data['sidebar'] = "daftar_pengembalian";
+      $data['msidebar'] = "";
+      $cek_tingkat = \App\opd::find(Auth::user()->OPD);
+      if($cek_tingkat->tingkat==0){
+       $data['ukp'] = \App\z_pangkat::leftjoin('z_pangkat_jeniskps','jenis_kp','=','id_jenis_kp')->where('opd','=',Auth::user()->OPD)->where('per_bln','=',session()->get('per'))->where('per_thn','=',session()->get('thn'))->where('verifikasi','=','3')->get();
+      } else {
+       $data['ukp'] = \App\z_pangkat::where('opd','=',Auth::user()->OPD)->where('per_bln','=',session()->get('per'))->where('per_thn','=',session()->get('thn'))->where('verifikasi', '=', '3')->get();
+      }
+      return view('pangkat.isi.daftar_pengembalian',$data);
+    }
+
     public function isi_catatan($id)
     {
         $data['pns'] = z_pangkat::find($id);
@@ -476,10 +506,6 @@ class pangkatController extends Controller
 //////////////////////////////////////////////////////////////////CPNS//////////////////////////////////////////////////
     public function berkas_cpns_add($id)
     {
-      if(Auth::user()->level <> 2 )
-      {
-        return redirect('pangkat/admin');
-      }
 
       $data['sidebar'] = "usul_pangkat";
       $data['msidebar'] = "reguler";
@@ -490,10 +516,6 @@ class pangkatController extends Controller
 
     public function berkas_cpns_edit($id)
     {
-      if(Auth::user()->level <> 2 )
-      {
-        return redirect('pangkat/admin');
-      }
 
       $data['sidebar'] = "usul_pangkat";
       $data['msidebar'] = "reguler";
@@ -586,10 +608,6 @@ class pangkatController extends Controller
     ///////////////////////////////////////////////////////////////////PNS//////////////////////////////////////////////////
         public function berkas_pns_add($id)
         {
-          if(Auth::user()->level <> 2 )
-          {
-            return redirect('pangkat/admin');
-          }
 
           $data['sidebar'] = "usul_pangkat";
           $data['msidebar'] = "reguler";
@@ -600,10 +618,6 @@ class pangkatController extends Controller
 
         public function berkas_pns_edit($id)
         {
-          if(Auth::user()->level <> 2 )
-          {
-            return redirect('pangkat/admin');
-          }
 
           $data['sidebar'] = "usul_pangkat";
           $data['msidebar'] = "reguler";
@@ -703,7 +717,7 @@ class pangkatController extends Controller
                }else{
                  $path = "storage/files"."/".$pangkat->per_thn."/".$pangkat->per_bln."/".$pangkat->jenis_kp."/".$pangkat->nip_baru." - ".$pangkat->nama;
                }
-                 unlink(public_path($data->filename)); //menghapus file lama
+                 unlink(public_path($data->lokasi)); //menghapus file lama
                  $file = $request->file('file');
                  $ext = $file->getClientOriginalExtension();
                  $newName = "SK_PNS_".$request->nip.".".$ext;
@@ -719,10 +733,6 @@ class pangkatController extends Controller
         ///////////////////////////////////////////////////////////////////SKP1//////////////////////////////////////////////////
             public function berkas_skp1_add($id)
             {
-              if(Auth::user()->level <> 2 )
-              {
-                return redirect('pangkat/admin');
-              }
 
               $data['sidebar'] = "usul_pangkat";
               $data['msidebar'] = "reguler";
@@ -733,10 +743,6 @@ class pangkatController extends Controller
 
             public function berkas_skp1_edit($id)
             {
-              if(Auth::user()->level <> 2 )
-              {
-                return redirect('pangkat/admin');
-              }
               $data['sidebar'] = "usul_pangkat";
               $data['msidebar'] = "reguler";
 
@@ -965,10 +971,6 @@ class pangkatController extends Controller
             ///////////////////////////////////////////////////////////////////skp2//////////////////////////////////////////////////
                 public function berkas_skp2_add($id)
                 {
-                  if(Auth::user()->level <> 2 )
-                  {
-                    return redirect('pangkat/admin');
-                  }
 
                   $data['sidebar'] = "usul_pangkat";
                   $data['msidebar'] = "reguler";
@@ -979,10 +981,6 @@ class pangkatController extends Controller
 
                 public function berkas_skp2_edit($id)
                 {
-                  if(Auth::user()->level <> 2 )
-                  {
-                    return redirect('pangkat/admin');
-                  }
                   $data['sidebar'] = "usul_pangkat";
                   $data['msidebar'] = "reguler";
 
@@ -1214,10 +1212,6 @@ class pangkatController extends Controller
 
   public function list_kp($id)
   {
-    if(Auth::user()->level <> 2 )
-    {
-      return redirect('pangkat/admin');
-    }
     $data['sidebar'] = "usul_pangkat";
     $data['pns'] = z_pangkat::find($id);
     $data['msidebar'] = red_jeniskp($data['pns']->jenis_kp);
@@ -1324,10 +1318,6 @@ class pangkatController extends Controller
 
     public function list_ijazah($id)
     {
-      if(Auth::user()->level <> 2 )
-      {
-        return redirect('pangkat/admin');
-      }
       $data['sidebar'] = "usul_pangkat";
       $data['pns'] = z_pangkat::find($id);
       $data['msidebar'] = red_jeniskp($data['pns']->jenis_kp);
@@ -1435,10 +1425,6 @@ class pangkatController extends Controller
 
       public function list_transkrip($id)
       {
-        if(Auth::user()->level <> 2 )
-        {
-          return redirect('pangkat/admin');
-        }
         $data['sidebar'] = "usul_pangkat";
         $data['pns'] = z_pangkat::find($id);
         $data['msidebar'] = red_jeniskp($data['pns']->jenis_kp);
@@ -1688,10 +1674,6 @@ class pangkatController extends Controller
 
                 public function add_jabfung($id)
                 {
-                  if(Auth::user()->level <> 2 )
-                  {
-                    return redirect('pangkat/admin');
-                  }
                   $data['dok'] = dok_lain::where("id_dok","=",12)->get();
                   $data['id'] = $id;
                   $data['edit_dok'] = "";
@@ -1712,10 +1694,6 @@ class pangkatController extends Controller
 
                 public function add_jabstruk($id)
                 {
-                  if(Auth::user()->level <> 2 )
-                  {
-                    return redirect('pangkat/admin');
-                  }
                   $data['dok'] = dok_lain::where("id_dok","=",10)->get();
                   $data['id'] = $id;
                   $data['edit_dok'] = "";
@@ -1735,10 +1713,6 @@ class pangkatController extends Controller
 
                 public function add_drj($id)
                 {
-                  if(Auth::user()->level <> 2 )
-                  {
-                    return redirect('pangkat/admin');
-                  }
                   $data['dok'] = dok_lain::where("id_dok","=",11)->get();
                   $data['id'] = $id;
                   $data['edit_dok'] = "";
@@ -1758,10 +1732,6 @@ class pangkatController extends Controller
 
                 public function add_uraian($id)
                 {
-                  if(Auth::user()->level <> 2 )
-                  {
-                    return redirect('pangkat/admin');
-                  }
                   $data['dok'] = dok_lain::where("id_dok","=",17)->get();
                   $data['id'] = $id;
                   $data['edit_dok'] = "";
@@ -1781,10 +1751,6 @@ class pangkatController extends Controller
 
         public function add_dok_lain($id)
         {
-          if(Auth::user()->level <> 2 )
-          {
-            return redirect('pangkat/admin');
-          }
           $data['dok'] = dok_lain::where("ket","=",1)->get();
           $data['id'] = $id;
           $data['edit_dok'] = "";
@@ -1925,4 +1891,41 @@ class pangkatController extends Controller
 
         }
 
+        public function profil()
+        {
+          $data['sidebar'] = "home";
+          $data['msidebar'] = "";
+
+          return view('pangkat.isi.profil',$data);
+
+        }
+        public function ubah_profil(Request $request)
+        {
+          $data = User::find(Auth::user()->id);
+          if (empty($request->file('file'))){
+              $data->img = $data->img;
+          }
+          else{
+              if(!empty(Auth::user()->img)){
+                unlink(public_path($data->lokasi)); //menghapus file lama
+              }
+              $file = $request->file('file');
+              $ext = $file->getClientOriginalExtension();
+                $newName = Auth::user()->username.".".$ext;
+                $path = "storage/files/foto/";
+                $file->move(public_path($path),$newName);
+              $data->img = $newName;
+              $data->lokasi = $path."/".$newName;
+              }
+              $data->name = $request->name;
+              $data->email = $request->email;
+              if(!empty($request->password)){
+              $data->password = bcrypt($request->password);
+              }
+          $data->save();
+          Alert::success('Profil telah diubah');
+
+          return redirect('pangkat');
+
+        }
 }

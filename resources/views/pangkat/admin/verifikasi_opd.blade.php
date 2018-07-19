@@ -19,6 +19,7 @@
                                                     <th>Jenis KP</th>
                                                     <th>OPD</th>
                                                     <th>Cek</th>
+                                                    <th>Status</th>
 
                                                   </thead>
                                                   <tbody>
@@ -27,11 +28,33 @@
                                                     <tr>
                                                     <td>{{$i}}</td>
                                                     <td>{{$pns->nama}}<br>{{$pns->nip_baru}}</td>
+                                                  @if($pns->gol4==0)
                                                     <td>{{$pns->nm_jenis_kp}}</td>
+                                                    @else
+                                                    <td>KP Golongan IV/a Keatas ({{$pns->nm_jenis_kp}})</td>
+                                                  @endif
+
                                                     <td>{{$pns->nm_opd}}</td>
                                                     <td>
                                                       <a href="{{url('pangkat/admin/verifpns').'/'.$pns->id}}" class='btn btn-info'><i class="fa fa-search-plus"></i></a>
                                                     </td>
+
+                                                    <?php
+                                                    switch($pns->verifikasi){
+                                                        case "2" :
+                                                      ?>  <td></td> <?php
+                                                            break;
+                                                        case "3" :
+                                                      ?>  <td><span class='badge bg-red'><i class="fa fa-close"></i></span></td> <?php
+                                                            break;
+                                                        case "4" :
+                                                      ?>  <td><span class='badge bg-red'><i class="fa  fa-warning"></i></span>Sudah Revisi</td> <?php
+                                                            break;
+                                                        case "6" :
+                                                      ?>  <td><span class='badge bg-blue'><i class="fa fa-thumbs-up"></i></span></td> <?php
+                                                            break;
+                                                    }
+                                                    ?>
                                                     @php $i++ @endphp
                                                     @endforeach
                                                   </tbody>

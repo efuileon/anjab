@@ -104,18 +104,24 @@
                                 </div><!-- ./col -->
                               </div>
                               <hr>
+                              @if($cek_tingkat->tingkat==0)
+                               @php $jum_kembali = \App\z_pangkat::leftjoin('z_pangkat_jeniskps','jenis_kp','=','id_jenis_kp')->where('opd','=',Auth::user()->OPD)->where('per_bln','=',session()->get('per'))->where('per_thn','=',session()->get('thn'))->where('verifikasi','=','3')->count(); @endphp
+                              @else
+                               @php $jum_kembali = \App\z_pangkat::where('opd','=',Auth::user()->OPD)->where('per_bln','=',session()->get('per'))->where('per_thn','=',session()->get('thn'))->where('verifikasi', '=', '3')->count(); @endphp
+                              @endif
+
                            <div class="row">
                                 <div class="col-lg-3 col-xs-6 wow fadeInDown" data-wow-delay="0.2s">
                                   <!-- small box -->
                                   <div class="small-box bg-red">
                                     <div class="inner">
-                                      <h3>150<sup style="font-size: 20px">Revisi</sup></h3>
-                                      <p>Daftar Revisi</p>
+                                      <h3>{{$jum_kembali}}<sup style="font-size: 20px">Usulan Kembali</sup></h3>
+                                      <p>Daftar Pengembalian Berkas</p>
                                     </div>
                                     <div class="icon">
                                       <i class="fa fa-edit"></i>
                                     </div>
-                                    <a href="#" class="small-box-footer">Rincian <i class="fa fa-arrow-circle-right"></i></a>
+                                    <a href="{{url('pangkat/daftar_pengembalian')}}" class="small-box-footer">Rincian <i class="fa fa-arrow-circle-right"></i></a>
                                   </div>
                                 </div><!-- ./col -->
                               </div>

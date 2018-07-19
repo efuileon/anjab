@@ -1,5 +1,25 @@
 <?php
 
+function red_jeniskp($id)
+{
+  switch ($id) {
+    case '1':
+      return "reguler";
+      break;
+      case '2':
+        return "jft";
+        break;
+        case '3':
+          return "struk";
+          break;
+          case '4':
+            return "pi_jfu";
+            break;
+            case '5':
+              return "pi_jft";
+              break;
+  }
+}
 
 function level($x)
 {

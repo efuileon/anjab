@@ -82,19 +82,28 @@ Route::get('pangkat/pi_jfu','pangkatController@pi_jfu');
 //pi_jft
 Route::get('pangkat/pi_jft','pangkatController@pi_jft');
 
+//profil
+Route::get('pangkat/profil','pangkatController@profil');
+Route::post('pangkat/ubah_profil','pangkatController@ubah_profil');
+
+
 //add pns
 Route::get('pangkat/cek_berkasreg/{id}','pangkatController@cek_berkasreg');
 Route::get('pangkat/uploadreg/{id}','pangkatController@uploadreg');
 Route::post('pangkat/cekpnsreg','pangkatController@cekpnsreg');
 Route::post('pangkat/addpnsreg','pangkatController@addpnsreg');
 Route::post('pangkat/naikreg','pangkatController@naikreg');
+Route::get('pangkat/kirim_revisi/{id}','pangkatController@kirim_revisi');
 
 //OPD
 
 Route::get('pangkat/daftar_usulan','pangkatController@daftar_usulan');
 Route::get('pangkat/isi_catatan/{id}','pangkatController@isi_catatan');
 Route::post('pangkat/catat','pangkatController@catat');
+Route::get('pangkat/daftar_pengembalian','pangkatController@daftar_pengembalian');
 
+//cetak Lampiran
+Route::get('pangkat/cetak_lampiran','pangkatController@cetak_lampiran');
 
 
 //cpns
@@ -184,9 +193,14 @@ Route::post('pangkat/admin/adduser','adminpangkatController@adduser');
 Route::get('pangkat/admin/verifikasi','adminpangkatController@verifikasi');
 Route::get('pangkat/admin/verifikasi/{id}','adminpangkatController@verifikasi_opd');
 Route::get('pangkat/admin/verifpns/{id}','adminpangkatController@verifpns');
+Route::get('pangkat/admin/verif_berkas/{id}','adminpangkatController@verif_berkas');
 
-//cetak Lampiran
-Route::get('pangkat/cetak_lampiran','pangkatController@cetak_lampiran');
+Route::get('pangkat/admin/berkas/ok/{jenis}/{id}','adminpangkatController@berkas_ok');
+Route::get('pangkat/admin/berkas/no/{jenis}/{id}','adminpangkatController@berkas_no');
+Route::post('pangkat/admin/berkas/no','adminpangkatController@berkas_no_catat');
+Route::get('pangkat/admin/verif_ok/{id}','adminpangkatController@verif_ok');
+Route::post('pangkat/admin/verif_catat','adminpangkatController@verif_catat');
+
 
 
 //sweet alert

@@ -10,11 +10,12 @@
                        </div>
                      </div>
           <!-- search form -->
-
+          <div id='timer'></div>
           <!-- /.search form -->
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
+
           @if (Auth::user()->level == 2)
                     @if ($sidebar =="home")
                     <li class="active">
@@ -65,14 +66,20 @@
                     </li>
 
 
-                    @if ($sidebar =="daftar_revisi")
+                    @if ($sidebar =="daftar_pengembalian")
                     <li class="active">
                     @else
                     <li>
                     @endif
-                        <a href="{{url('pangkat/daftar_revisi')}}">
-                            <i class="fa fa-edit"></i> <span>Datar Revisi</span>
-                            <span class="label label-danger pull-right">0</span>
+                    @if($cek_tingkat->tingkat==0)
+                     @php $jum_kembali = \App\z_pangkat::leftjoin('z_pangkat_jeniskps','jenis_kp','=','id_jenis_kp')->where('opd','=',Auth::user()->OPD)->where('per_bln','=',session()->get('per'))->where('per_thn','=',session()->get('thn'))->where('verifikasi','=','3')->count(); @endphp
+                    @else
+                     @php $jum_kembali = \App\z_pangkat::where('opd','=',Auth::user()->OPD)->where('per_bln','=',session()->get('per'))->where('per_thn','=',session()->get('thn'))->where('verifikasi', '=', '3')->count(); @endphp
+                    @endif
+
+                        <a href="{{url('pangkat/daftar_pengembalian')}}">
+                            <i class="fa fa-edit"></i> <span>Datar Pengembalian</span>
+                            <span class="label label-danger pull-right">{{$jum_kembali}}</span>
                         </a>
                     </li>
                     </li>
@@ -87,6 +94,7 @@
                     </a>
                 </li>
 
+                @if (Auth::user()->level == 0)
                 @if ($sidebar =="user")
                 <li class="active">
                 @else
@@ -96,6 +104,7 @@
                         <i class="fa fa-users"></i> <span>Manajemen User</span>
                     </a>
                 </li>
+                @endif
 
                 @if ($sidebar =="verifikasi")
                 <li class="active">
@@ -155,4 +164,64 @@
             </form>
 
         </section>
+
+<script type = "text/javascript" >
+    $(document).ready(function() {
+        /** Membuat Waktu Mulai Hitung Mundur Dengan
+          * var detik = 0,
+          * var menit = 1,
+          * var jam = 0
+        */
+        var detik = 00;
+        var menit = 20;
+        var jam = 0;
+        /**
+          * Membuat function hitung() sebagai Penghitungan Waktu
+        */
+        function hitung() {
+            /** setTimout(hitung, 1000) digunakan untuk
+                * mengulang atau merefresh halaman selama 1000 (1 detik)
+            */
+            setTimeout(hitung, 1000);
+            /** Jika waktu kurang dari 10 menit maka Timer akan berubah menjadi warna merah */
+            if (menit < 5 && jam == 0) {
+                var peringatan = 'style="color:red"';
+            };
+            /** Menampilkan Waktu Timer pada Tag #Timer di HTML yang tersedia */
+            $('#timer').html(
+                '
+Sisa waktu anda
+' + jam + ' jam : ' + menit + ' menit : ' + detik + ' detik
+'
+            );
+            /** Melakukan Hitung Mundur dengan Mengurangi variabel detik - 1 */
+            detik--;
+            /** Jika var detik < 0
+                * var detik akan dikembalikan ke 59
+                * Menit akan Berkurang 1
+            */
+            if (detik < 0) {
+                detik = 59;
+                menit--;
+                /** Jika menit < 0
+                    * Maka menit akan dikembali ke 59
+                    * Jam akan Berkurang 1
+                */
+                if (menit < 0) {
+                    menit = 59;
+                    jam--;
+                    /** Jika var jam < 0
+                        * clearInterval() Memberhentikan Interval dan submit secara otomatis
+                    */
+                    if (jam < 0) {
+                        clearInterval();
+                    }
+                }
+            }
+        }
+        /** Menjalankan Function Hitung Waktu Mundur */
+        hitung();
+    });
+// ]]>
+</script>
         <!-- /.sidebar -->
