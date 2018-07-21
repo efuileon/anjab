@@ -9,6 +9,8 @@
 
                 <div class="box-body">
                   <div class="row">
+                    
+                    <div class="font-family: 'Montserrat', sans-serif;">kshfkjhsdjgh1234</div>
                     @php $cek_tingkat = \App\opd::find(Auth::user()->OPD); @endphp
                     @php $jum_reg = \App\z_pangkat::leftjoin('z_pangkat_jeniskps','jenis_kp','=','id_jenis_kp')->leftjoin('opds','opd','=','id_opd')->leftjoin('z_pangkat_statuss','verifikasi','=','kd_status')->whereRaw('(opd = '.Auth::user()->OPD.' or parent = '.Auth::user()->OPD.')')->where('per_bln','=',session()->get('per'))->where('per_thn','=',session()->get('thn'))->where('jenis_kp','=',1)->where('verifikasi','>=',$cek_tingkat->tingkat)->count(); @endphp
                              <div class="col-lg-2 col-xs-6 wow tada" data-wow-delay="0.2s">

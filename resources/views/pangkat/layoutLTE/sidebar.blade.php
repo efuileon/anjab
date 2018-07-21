@@ -10,7 +10,7 @@
                        </div>
                      </div>
           <!-- search form -->
-          <div id='timer'></div>
+
           <!-- /.search form -->
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
@@ -164,64 +164,66 @@
             </form>
 
         </section>
+        <!--////////////////////////////waktu///////////////////////-->
 
-<script type = "text/javascript" >
-    $(document).ready(function() {
-        /** Membuat Waktu Mulai Hitung Mundur Dengan
-          * var detik = 0,
-          * var menit = 1,
-          * var jam = 0
-        */
-        var detik = 00;
-        var menit = 20;
-        var jam = 0;
-        /**
-          * Membuat function hitung() sebagai Penghitungan Waktu
-        */
-        function hitung() {
-            /** setTimout(hitung, 1000) digunakan untuk
-                * mengulang atau merefresh halaman selama 1000 (1 detik)
-            */
-            setTimeout(hitung, 1000);
-            /** Jika waktu kurang dari 10 menit maka Timer akan berubah menjadi warna merah */
-            if (menit < 5 && jam == 0) {
-                var peringatan = 'style="color:red"';
-            };
-            /** Menampilkan Waktu Timer pada Tag #Timer di HTML yang tersedia */
-            $('#timer').html(
-                '
-Sisa waktu anda
-' + jam + ' jam : ' + menit + ' menit : ' + detik + ' detik
-'
-            );
-            /** Melakukan Hitung Mundur dengan Mengurangi variabel detik - 1 */
-            detik--;
-            /** Jika var detik < 0
-                * var detik akan dikembalikan ke 59
-                * Menit akan Berkurang 1
-            */
-            if (detik < 0) {
-                detik = 59;
-                menit--;
-                /** Jika menit < 0
-                    * Maka menit akan dikembali ke 59
-                    * Jam akan Berkurang 1
-                */
-                if (menit < 0) {
-                    menit = 59;
-                    jam--;
-                    /** Jika var jam < 0
-                        * clearInterval() Memberhentikan Interval dan submit secara otomatis
-                    */
-                    if (jam < 0) {
-                        clearInterval();
-                    }
-                }
+        <center><span class="label">KP Gol III/d Kebawah Ditutup <div id="demo"></div></span></center>
+        <center><span class="label">KP Gol IV/a Keatas Ditutup<div id="demo2"></div></span></center>
+        <script>
+        // Set the date we're counting down to
+        var countDownDate = new Date("Jul 24, 2018 23:59:59").getTime();
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+            // Get todays date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now an the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Output the result in an element with id="demo"
+            document.getElementById("demo").innerHTML = days + "hari " + hours + "jam "
+            + minutes + "menit " + seconds + "detik ";
+
+            // If the count down is over, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "WAKTU HABIS";
             }
-        }
-        /** Menjalankan Function Hitung Waktu Mundur */
-        hitung();
-    });
-// ]]>
-</script>
+        }, 1000);
+        var countDownDate2 = new Date("Jul 15, 2018 23:59:59").getTime();
+
+        // Update the count down every 1 second
+        var x2 = setInterval(function() {
+
+            // Get todays date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now an the count down date
+            var distance2 = countDownDate2 - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days2 = Math.floor(distance2 / (1000 * 60 * 60 * 24));
+            var hours2 = Math.floor((distance2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes2 = Math.floor((distance2 % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds2 = Math.floor((distance2 % (1000 * 60)) / 1000);
+
+            // Output the result in an element with id="demo"
+            document.getElementById("demo2").innerHTML = days2 + "hari " + hours2 + "jam "
+            + minutes2 + "menit " + seconds2 + "detik ";
+
+            // If the count down is over, write some text
+            if (distance2 < 0) {
+                clearInterval(x2);
+                document.getElementById("demo2").innerHTML = "WAKTU HABIS";
+            }
+        }, 1000);
+
+        </script>
         <!-- /.sidebar -->
