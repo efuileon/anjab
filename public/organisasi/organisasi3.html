@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="tutorial-boostrap-merubaha-warna">
+	<meta name="author" content="ilmu-detil.blogspot.com">
+	<title>Tutorial Boostrap : Flexslider</title>
+	<!-- CSS --->
+	<link rel="stylesheet" href="assets/css/bootstrap.css">
+	<link rel="stylesheet" href="assets/css/font-awesome.min.css"> 
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<link href="orgchart/orgchart.css" rel="stylesheet" type="text/css"/>
+		<script type="text/javascript" src="orgchart/orgchart.js"></script>
+		
+
+	
+	
+	
+	<style type="text/css">
+	.navbar-default .navbar-nav > li.clr1 a{
+		color:#ffffff;
+	}
+	.navbar-default .navbar-nav > li.clr2 a{
+		color: #FFEB3B;;
+	}
+	.navbar-default .navbar-nav > li.clr3 a{
+		color: #5EC64D;
+	}
+	.navbar-default .navbar-nav > li.clr4 a{
+		color: #29AAE2;
+	}
+	.navbar-default .navbar-nav > li.clr1 a:hover, .navbar-default .navbar-nav > li.clr1.active a{
+		color:#fff;
+		background: #F55;
+	}
+	.navbar-default .navbar-nav > li.clr2 a:hover, .navbar-default .navbar-nav > li.clr2.active a{
+		color: #fff;
+		background:#973CB6;
+	}
+	.navbar-default .navbar-nav > li.clr3 a:hover, .navbar-default .navbar-nav > li.clr3.active a{
+		color: #fff;
+		background:#5EC64D;
+	}
+	.navbar-default .navbar-nav > li.clr4 a:hover, .navbar-default .navbar-nav > li.clr4.active a{
+		color: #fff;
+		background: #29AAE2;
+	}
+	.navbar-default{
+		background-color: #3b5998;
+		font-size:18px;
+	}
+	.navbar-default .navbar-brand {
+		color: #ffffff;
+		font-weight:bold;
+	}
+	.navbar-default .navbar-text {
+		color:#ffffff;
+    }
+	a{
+		color: #FFC107;
+		text-decoration: none;
+	}
+	
+	</style>
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="index.html">
+			Pusat Ilmu Secara Detil</a>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-left">
+				<li class="clr1 active"><a href="index.html">Home</a></li>
+				<li class="clr2"><a href="about.html">Programming</a></li>
+				<li class="clr3"><a href="courses.html">English</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+</br></br></br></br>
+<!--- Bagian Konten-->	
+<div class="container">
+<div class="row">
+
+	<ul id="tree-data" style="display:none">
+			<li id="root">
+				Direktorat Utama
+				<ul>
+					<li id="node1">
+					   Direktorat Operasi
+					   <ul>
+							<li id="node6">
+							Divisi Layanan
+							</li>
+							<li id="node6">
+							Divisi Kepersetaan
+							<ul>
+								<li id="node6">
+								Divisi Administrasi
+								</li>
+								<li id="node6">
+								Divisi Sosialisasi
+								</li>
+							</ul>
+							</li>
+							<li id="node6">
+							Divisi Aktuaria
+							</li>
+						</ul>
+					</li>
+					<li id="node2">
+						Direktorat Investasi
+						<ul>
+							<li id="node6">
+							Divisi Investasi
+							Pasar Uang
+							</li>
+							<li id="node6">
+							Divisi Investasi
+							Pasar Modal
+							</li>
+							<li id="node6">
+							Analisis Investasi
+							</li>
+						</ul>
+					</li>
+					<li id="node3">
+					   Direktorat Umum
+						
+					</li>
+					<li id="node4">
+					   Direktorat Keuangan
+					   
+					</li>
+					<li id="node5">
+					   Direktorat Informasi
+					</li>
+				</ul>
+				
+			</li>
+	</ul>
+    <div id="tree-view"></div>	
+<script>
+	$(document).ready(function () {
+	// create a tree
+	$("#tree-data").jOrgChart({
+		chartElement: $("#tree-view"), 
+		nodeClicked: nodeClicked
+	});
+	// lighting a node in the selection
+	function nodeClicked(node, type) {
+		node = node || $(this);
+		$('.jOrgChart .selected').removeClass('selected');
+			node.addClass('selected');
+		}
+	});
+</script>		
+		
+</div>
+</div>
+
+
+
+	
+		
+	
+
+
+
+<!--- Akhir Bagian Konten-->	
+	<!-- /.navbar -->
+	
+<br><br><br>
+<div class="navbar navbar-default navbar-fixed-bottom ">
+   <div class="container">
+      <p class="navbar-text pull-left">Detailed Technology Center, Powered by <a href="http://ilmu-detil.blogspot.co.id/">Pusat Ilmu Secara Detil</a></p>
+   </div>
+</div>  
+</body>
+</html>

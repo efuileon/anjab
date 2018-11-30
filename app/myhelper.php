@@ -149,16 +149,16 @@ function tgl_indo($tgl){
 
 function db_jum_esl($x)
 {
-  return DB::table($x)->selectRaw('eselon,NM_ESELON,count(*) as jum')->leftjoin('eselons','eselon','=','KD_ESELON')->where('NIP_PJB','=',null)->where('mulai_berlaku','=','2017-01-01')->where('eselon','<>','')->groupby('NM_ESELON')->get();
+  return DB::table($x)->selectRaw('eselon,NM_ESELON,count(*) as jum')->leftjoin('eselons','eselon','=','KD_ESELON')->where('NIP_PJB','=',"")->where('mulai_berlaku','=','2017-01-01')->where('eselon','<>','')->groupby('NM_ESELON')->get();
 }
 
 function db_unker_kosong($x)
 {
-  return DB::table($x)->where('NIP_PJB','=',null)->where('mulai_berlaku','=','2017-01-01')->where('eselon','<>','')->groupby('UNIT_KERJA')->get();
+  return DB::table($x)->where('NIP_PJB','=',"")->where('mulai_berlaku','=','2017-01-01')->where('eselon','<>','')->groupby('UNIT_KERJA')->get();
 }
 function db_hitung_total($x)
 {
-  return DB::table($x)->where('NIP_PJB','=',null)->where('mulai_berlaku','=','2017-01-01')->where('eselon','<>','')->get();
+  return DB::table($x)->where('NIP_PJB','=',"")->where('mulai_berlaku','=','2017-01-01')->where('eselon','<>','')->get();
 }
 
 function warna_esl($x){
@@ -183,6 +183,32 @@ switch ($x){
     break;
     default:
     return "badge bg-orange";
+    break;
+  }
+}
+
+function warna_esl2($x){
+switch ($x){
+  case '21':
+    return "bg-danger";
+    break;
+  case '22':
+    return "bg-danger";
+    break;
+  case '31':
+    return "bg-primary";
+    break;
+  case '32':
+    return "bg-primary";
+    break;
+  case '41':
+    return "bg-success";
+    break;
+  case '42':
+    return "bg-success";
+    break;
+    default:
+    return "bg-orange";
     break;
   }
 }
